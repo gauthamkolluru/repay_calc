@@ -1,12 +1,33 @@
 import json
-from datetime import date
+from datetime import date, datetime
 
 PRODUCTTEMPLATENAME = "products_template.json"
 
-OPTIONS = {1: "New Data", 2: "Show Next Month EMI Total"}
+OPTIONS = {
+    1: "New Data",
+    2: "Show Next Month EMI Total",
+    "Any Key": "Exit"
+}
+
+PURCHASE_DETAILS = {
+    "ITEM_DETAILS": {
+        'name': "",
+        'bought from': "",
+        'bought on': "",
+        'bought using': "",
+        'price': "",
+    },
+    "REPAYMENT_DETAILS": {
+        "start date": "",
+        "tenure": "",
+        "end date": "",
+        "emi": ""
+    }
+
+}
 
 
-def create_file_name(username, file_name="_products.json"):
+def user_file_name(username, file_name="_products.json"):
     return username + file_name
 
 
@@ -31,51 +52,39 @@ def read_json(file_name=PRODUCTTEMPLATENAME):
     return False
 
 
-def menu():
-    console_output("Enter new product data : Press 1")
-    console_output("Next month EMIs Total : Press 2")
-    console_output("Exit : Press Any Other Key")
+def menu(options=OPTIONS):
+
+    for option in options:
+        print("Press {} for {}".format(option, options[option]))
+
     return user_input("Press a key : ")
 
 
-def get_prod_details(pd):
+# def gpd():
+#     """
+#     GPD : Get Product Details
+#     """
+#     return {i: input("Product {} : ".format(i)) for i in ITEM_DETAILS}
 
-    if pd:
 
-        for k, v in pd.items():
-
-            if isinstance(v, dict):
-                pd[k] = get_prod_details(v)
-
-            else:
-                pd[k] = user_input("Enter a value for {}".format(k))
-
-        return pd
-
-    return False
+def grd():
+    """
+    GRD : Get Repayment Details 
+    """
+    return {i: {j: input("{} {} : ".format('Product' if i.lower() == 'item_details' else 'Repayment', j)) for j in PURCHASE_DETAILS[i]} for i in PURCHASE_DETAILS}
 
 
 def order(choice):
-
     if choice == 1:
-
-        prod_details = read_json()
-        prod_details['edited_on'] = date.isoformat(date.today())
-
-        print(prod_details['products'])
-
-        prod_details['products'] = get_prod_details(prod_details['products'])
-
-        print(prod_details['products'])
-
+        pd = grd()
+        print(pd)
         return True
-
     if choice == 2:
         return True
     return False
 
 
-def main(OPTIONS):
+def main():
     choice = menu()
     if choice.isnumeric():
         choice = int(choice)

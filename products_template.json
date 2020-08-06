@@ -1,0 +1,16 @@
+{
+	"edited_on": "",
+	"products": {
+		"name": "",
+		"bought_from": "",
+		"bought_on_date": "",
+		"bought_using": "",
+		"price": "",
+		"repayment": {
+			"start_date": "",
+			"tenure": "",
+			"end_date": "",
+			"amount": ""
+		}
+	}
+}

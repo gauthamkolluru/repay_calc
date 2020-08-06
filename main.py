@@ -23,7 +23,8 @@ PURCHASE_DETAILS = {
     ],
     "repayment": [
         "start date",
-        "tenure"
+        "tenure",
+        "roi"
     ]
 }
 
@@ -53,35 +54,63 @@ def read_json(file_name):
     return False
 
 
-def grd(pd):
+def gpd():
     """
-    GRD : Get Repayment Details
+    GPD : Get Purchase Details
     """
-
+    pd = dict()
     for purchase in PURCHASE_DETAILS:
         for item in PURCHASE_DETAILS[purchase]:
             item_detail = input("{} {} : ".format(
                 'Product' if purchase.lower() == 'item' else 'Repayment', item))
             pd.update({item: item_detail})
+
+    pd.update({'end date': get_end_date(
+        pd['start date'], pd['tenure'])})
+
+    pd.update({'emi': get_monthly_emi(pd['price'], pd['roi'], pd['tenure'])})
+
+    pd.update({'active':is_active(pd['end date'])})
+
+    print(pd)
+
     return pd
 
+def is_active(given_date):
+    return (read_date_from_string(given_date) - date.today()).days > 0
 
-def get_end_date(pd):
-    start_date = datetime.strptime(pd['start date'], "%Y-%m-%d")
-    no_of_days = int(pd['tenure']) * 30
-    end_date = start_date + timedelta(days=no_of_days)
-    end_date = datetime.strptime(
-        "{}-{}-{}".format(end_date.year, end_date.month, start_date.day), "%Y-%m-%d").date().isoformat()
-    pd.update({'end date': end_date})
-    return pd
+
+def get_monthly_emi(principle, roi, tenure):
+    total_interest = get_total_interest(principle, roi, tenure)
+    return round((int(principle) + int(total_interest))/int(tenure))
+
+
+def get_days_from_months(months):
+    return int(months) * 30
+
+
+def read_date_from_string(date_string):
+    return datetime.strptime(date_string, "%Y-%m-%d").date()
+
+
+def get_date_in_string(given_date):
+    return given_date.date().isoformat()
+
+
+def get_end_date(start_date, tenure):
+    start_date = datetime.strptime(start_date, "%Y-%m-%d")
+    differenced_date = start_date + \
+        timedelta(days=get_days_from_months(tenure))
+    return get_date_in_string(differenced_date)[:-2] + get_date_in_string(start_date)[-2:]
+
+
+def get_total_interest(principle, roi, tenure):
+    return ((int(principle)*(int(roi)/100))/12)*int(tenure)
 
 
 def order(choice):
     if choice == 1:
-        pd = dict()
-        pd = grd(pd)
-        pd = get_end_date(pd)
-        print(pd)
+        pd = gpd()
         return True
     if choice == 2:
         return True

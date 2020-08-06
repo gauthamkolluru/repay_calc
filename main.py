@@ -70,11 +70,12 @@ def gpd():
 
     pd.update({'emi': get_monthly_emi(pd['price'], pd['roi'], pd['tenure'])})
 
-    pd.update({'active':is_active(pd['end date'])})
+    pd.update({'active': is_active(pd['end date'])})
 
     print(pd)
 
     return pd
+
 
 def is_active(given_date):
     return (read_date_from_string(given_date) - date.today()).days > 0

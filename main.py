@@ -1,20 +1,7 @@
-
+import data_handler
 
 def user_file_name(username, file_name="_products.json"):
     return username + file_name
-
-
-def user_input(in_prompt):
-    return input(in_prompt)
-
-
-def console_output(out_prompt):
-    return print(out_prompt)
-
-
-def create_json_dict():
-    return {JSON_DICT_KEYS[0]: get_date_in_string(),
-            JSON_DICT_KEYS[1]: []}
 
 
 def update_json_dict(existing_data, new_prod_data, edited_date=""):

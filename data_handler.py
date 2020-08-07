@@ -1,7 +1,7 @@
+import os
+
 import CRUD_json
 import default_data
-
-import os
 
 
 def get_data_from_json(file_name):
@@ -11,7 +11,7 @@ def get_data_from_json(file_name):
 def update_data(data, key, val):
     if isinstance(data[key], list):
         data[key].append(val)
-    elif isinstance(data[key], str):
+    else:
         data[key] = val  # get_date_in_string()
     return data
 

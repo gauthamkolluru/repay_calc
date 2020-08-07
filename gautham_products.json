@@ -1,1 +1,44 @@
-{}
+{
+	"edited on": "2020-08-07",
+	"products": [
+		{
+			"name": "rayban wayfarer",
+			"bought from": "amazon",
+			"bought on": "2020-08-07",
+			"bought using": "amazon pay",
+			"price": "9857",
+			"start date": "2020-09-05",
+			"tenure": "6",
+			"roi": "0",
+			"end date": "2021-03-05",
+			"emi": 1643,
+			"active": true
+		},
+		{
+			"name": "h c verma",
+			"bought from": "amazon",
+			"bought on": "today",
+			"bought using": "amazon pay",
+			"price": "394",
+			"start date": "2020-09-05",
+			"tenure": "1",
+			"roi": "0",
+			"end date": "2020-10-05",
+			"emi": 394,
+			"active": true
+		},
+		{
+			"name": "iphone",
+			"bought from": "amazon",
+			"bought on": "2020-08-07",
+			"bought using": "amazon pay",
+			"price": "44999",
+			"start date": "2020-09-05",
+			"tenure": "12",
+			"roi": "0",
+			"end date": "2021-08-05",
+			"emi": 3750,
+			"active": true
+		}
+	]
+}

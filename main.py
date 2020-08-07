@@ -50,7 +50,7 @@ def console_output(out_prompt):
 
 def write_json(data_dict, file_name):
     with open(file_name, 'w') as fn:
-        json.dump(data_dict, fn)
+        json.dump(data_dict, fn, indent=4)
         return True
     return False
 
@@ -101,7 +101,7 @@ def read_date_from_string(date_string):
     return datetime.strptime(date_string, "%Y-%m-%d").date()
 
 
-def get_date_in_string(given_date=date.today()):
+def get_date_in_string(given_date=datetime.now()):
     return given_date.date().isoformat()
 
 
@@ -118,8 +118,11 @@ def get_total_interest(principle, roi, tenure):
 
 def order(choice):
     if choice == 1:
-        STORE_DICT['edited on'] = get_date_in_string()
-        STORE_DICT['products'].append(gpd())
+        fd = read_json(user_file_name(input("Enter Username : ")))
+        fd = fd if fd else STORE_DICT
+        fd['edited on'] = get_date_in_string()
+        fd['products'].append(gpd())
+        write_json(fd, user_file_name(input("Enter Username : ")))
         return True
     if choice == 2:
         return True

@@ -1,39 +1,3 @@
-import json
-from datetime import date, datetime, timedelta
-
-# PRODUCTTEMPLATENAME = "products_template.json"
-
-STORE_DICT = {
-    'edited on': "",
-    'products': [
-
-    ]
-}
-
-INSTRUCTIONS = {
-    "Date format": "yyyy-mm-dd EX 2020-12-31 for 31st December 2020"
-}
-
-OPTIONS = {
-    1: "New Data",
-    2: "Show Next Month EMI Total",
-    "Any Key": "Exit"
-}
-
-PURCHASE_DETAILS = {
-    "item": [
-        'name',
-        'bought from',
-        'bought on',
-        'bought using',
-        'price',
-    ],
-    "repayment": [
-        "start date",
-        "tenure",
-        "roi"
-    ]
-}
 
 
 def user_file_name(username, file_name="_products.json"):
@@ -48,16 +12,18 @@ def console_output(out_prompt):
     return print(out_prompt)
 
 
-def write_json(data_dict, file_name):
-    with open(file_name, 'w') as fn:
-        json.dump(data_dict, fn, indent=4)
-        return True
-    return False
+def create_json_dict():
+    return {JSON_DICT_KEYS[0]: get_date_in_string(),
+            JSON_DICT_KEYS[1]: []}
 
 
-def read_json(file_name):
-    with open(file_name) as fn:
-        return json.load(fn)
+def update_json_dict(existing_data, new_prod_data, edited_date=""):
+    if existing_data:
+        if edited_date:
+            existing_data[JSON_DICT_KEYS[0]] = edited_date
+        if new_prod_data:
+            existing_data[JSON_DICT_KEYS[1]].append(new_prod_data)
+        return existing_data
     return False
 
 
@@ -91,25 +57,6 @@ def is_active(given_date):
 def get_monthly_emi(principle, roi, tenure):
     total_interest = get_total_interest(principle, roi, tenure)
     return round((int(principle) + int(total_interest))/int(tenure))
-
-
-def get_days_from_months(months):
-    return int(months) * 30
-
-
-def read_date_from_string(date_string):
-    return datetime.strptime(date_string, "%Y-%m-%d").date()
-
-
-def get_date_in_string(given_date=datetime.now()):
-    return given_date.date().isoformat()
-
-
-def get_end_date(start_date, tenure):
-    start_date = datetime.strptime(start_date, "%Y-%m-%d")
-    differenced_date = start_date + \
-        timedelta(days=get_days_from_months(tenure))
-    return get_date_in_string(differenced_date)[:-2] + get_date_in_string(start_date)[-2:]
 
 
 def get_total_interest(principle, roi, tenure):

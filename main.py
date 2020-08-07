@@ -3,6 +3,13 @@ from datetime import date, datetime, timedelta
 
 # PRODUCTTEMPLATENAME = "products_template.json"
 
+STORE_DICT = {
+    'edited on': "",
+    'products': [
+
+    ]
+}
+
 INSTRUCTIONS = {
     "Date format": "yyyy-mm-dd EX 2020-12-31 for 31st December 2020"
 }
@@ -94,7 +101,7 @@ def read_date_from_string(date_string):
     return datetime.strptime(date_string, "%Y-%m-%d").date()
 
 
-def get_date_in_string(given_date):
+def get_date_in_string(given_date=date.today()):
     return given_date.date().isoformat()
 
 
@@ -111,7 +118,8 @@ def get_total_interest(principle, roi, tenure):
 
 def order(choice):
     if choice == 1:
-        pd = gpd()
+        STORE_DICT['edited on'] = get_date_in_string()
+        STORE_DICT['products'].append(gpd())
         return True
     if choice == 2:
         return True
